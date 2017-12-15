@@ -1,0 +1,29 @@
+notifications:
+  email:
+    recipients:
+      - dtulyakov@gmail.com
+      - dtulyakov.log@gmail.com
+
+#addons:
+#    code_climate:
+#        repo_token: "$CLIMATE_TOKEN"
+
+sudo: required
+
+language: python
+
+services:
+  - docker
+
+before_install:
+- docker build -t dtulyakov/ansible:latest .
+- docker run --rm -v $(pwd):/opt dtulyakov/ansible:latest sh -c "ansible-playbook --version"
+
+script:
+- date
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push dtulyakov/ansible:latest;
+    fi
