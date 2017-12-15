@@ -7,5 +7,4 @@ docker build --force-rm --no-cache --tag=dtulyakov/ansible:latest . \
      --volumes-from $(pwd):/app \
      dtulyakov/ansible:latest \
      sh -c "ansible-playbook --version
-
 ```
